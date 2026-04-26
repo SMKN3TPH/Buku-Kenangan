@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeri — Pernah di Sini</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Pernah di Sini</a>
+      <div class="navbar-links-wrap" id="nav-wrap">
+        <div class="navbar-links" id="navbar-links">
+          <a href="angkatan.html" class="nav-link">Angkatan</a>
+          <a href="galeri.html"   class="nav-link active">Galeri</a>
+          <a href="pesan.html"    class="nav-link">Pesan</a>
+          <a href="pustaka.html"  class="nav-link">Pustaka</a>
+        </div>
+        <i class="fas fa-chevron-right navbar-scroll-hint" id="nav-hint"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Buku Kenangan · 2026</p>
+    <h1 class="hero-title">Galeri <em>Kenangan.</em></h1>
+    <p class="hero-sub">Dokumentasi resmi dan kiriman teman-teman angkatan.</p>
+  </div>
+
+  <!-- MAIN -->
+  <div class="galeri-main">
+
+    <!-- ── DOKUMENTASI RESMI ── -->
+    <div class="galeri-sep"><span>Dokumentasi Resmi</span></div>
+
+    <!-- Filter Jurusan -->
+    <!-- galeri.js setupAdminFilters() mencari .jurusan-card di dalam #admin-jurusan-filter-container -->
+    <div id="admin-jurusan-filter-container">
+      <!-- "Semua" — full width bar -->
+      <div class="jurusan-card jf-semua active" data-jurusan="all">
+        <span class="jf-semua-label">Semua Jurusan</span>
+        <span class="jf-semua-count" id="admin-count-all">0 foto</span>
+      </div>
+      <!-- 4 kartu jurusan -->
+      <div class="jurusan-card-grid">
+        <div class="jurusan-card" data-jurusan="TSM">
+          <div class="jc-name">TSM</div>
+          <div class="count" id="admin-count-tsm">0 foto</div>
+        </div>
+        <div class="jurusan-card" data-jurusan="MPLB">
+          <div class="jc-name">MPLB</div>
+          <div class="count" id="admin-count-mplb">0 foto</div>
+        </div>
+        <div class="jurusan-card" data-jurusan="ATP">
+          <div class="jc-name">ATP</div>
+          <div class="count" id="admin-count-atp">0 foto</div>
+        </div>
+        <div class="jurusan-card" data-jurusan="APHP">
+          <div class="jc-name">APHP</div>
+          <div class="count" id="admin-count-aphp">0 foto</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Kategori Admin -->
+    <div class="cat-filter-row">
+      <button class="admin-category-filter-btn filter-btn active" data-category="all">Semua</button>
+      <button class="admin-category-filter-btn filter-btn" data-category="kelas">Kelas</button>
+      <button class="admin-category-filter-btn filter-btn" data-category="praktik">Praktik</button>
+      <button class="admin-category-filter-btn filter-btn" data-category="acara">Acara</button>
+      <button class="admin-category-filter-btn filter-btn" data-category="ekstra">Ekstra</button>
+    </div>
+
+    <!-- Grid foto admin -->
+    <div class="photo-grid" id="admin-photo-grid"></div>
+    <button class="load-more-btn" id="load-more-admin" onclick="loadMoreAdmin()">Lihat lebih banyak</button>
+
+
+    <!-- ── KIRIMAN TEMAN-TEMAN ── -->
+    <div class="galeri-sep"><span>Kiriman Teman-teman</span></div>
+
+    <!-- Upload Trigger -->
+    <div class="upload-trigger" id="upload-trigger">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold-dim)" stroke-width="1.5">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      <div>
+        <div class="upload-trig-title">Tambahkan fotomu</div>
+        <div class="upload-trig-sub">Klik untuk upload kenangan bersama angkatan</div>
+        <div id="quota-info">Memuat kuota...</div>
+      </div>
+    </div>
+
+    <!-- Filter Kategori User -->
+    <div class="cat-filter-row">
+      <button class="user-category-filter-btn filter-btn active" data-category="all">Semua</button>
+      <button class="user-category-filter-btn filter-btn" data-category="kelas">Kelas</button>
+      <button class="user-category-filter-btn filter-btn" data-category="praktik">Praktik</button>
+      <button class="user-category-filter-btn filter-btn" data-category="acara">Acara</button>
+      <button class="user-category-filter-btn filter-btn" data-category="ekstra">Ekstra</button>
+      <button class="user-category-filter-btn filter-btn" data-category="umum">Umum</button>
+    </div>
+
+    <!-- Grid foto user -->
+    <div class="photo-grid" id="user-photo-grid"></div>
+    <button class="load-more-btn" id="load-more-user" onclick="loadMoreUser()">Lihat lebih banyak</button>
+
+  </div><!-- /galeri-main -->
+
+
+  <!-- ══════════════ UPLOAD MODAL ══════════════ -->
+  <div class="upload-modal-overlay" id="upload-modal">
+    <div class="upload-box">
+      <div class="upload-box-title">Upload Foto</div>
+      <div id="upload-subtitle"></div>
+
+      <img id="upload-preview" alt="Preview">
+
+      <div id="drag-drop-area" class="drag-drop-area">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--gold-dim)" stroke-width="1.5" style="display:block;margin:0 auto 10px">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p><strong style="color:var(--text);font-weight:400">Drag &amp; drop</strong> foto di sini</p>
+        <small>atau</small><br>
+        <button type="button" id="select-file-btn" class="pick-file-btn">Pilih Foto</button>
+      </div>
+
+      <input type="file" id="upload-file" accept="image/*" style="display:none">
+
+      <div class="upload-field">
+        <label class="upload-label">Judul Foto</label>
+        <input type="text" id="upload-title" placeholder="Contoh: Momen Praktik TSM">
+      </div>
+
+      <div class="upload-field">
+        <label class="upload-label">Deskripsi <span style="text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-dim)">(opsional)</span></label>
+        <textarea id="upload-desc" placeholder="Ceritakan momen ini…"></textarea>
+      </div>
+
+      <div class="upload-field">
+        <label class="upload-label">Kategori</label>
+        <select id="upload-category" onchange="toggleJurusanFotoField(this.value)">
+          <option value="" disabled selected>Pilih kategori foto</option>
+          <option value="kelas">Kelas</option>
+          <option value="praktik">Praktik</option>
+          <option value="acara">Acara</option>
+          <option value="ekstra">Ekstra</option>
+          <option value="umum">Umum</option>
+        </select>
+      </div>
+
+      <div id="jurusan-foto-field" style="display:none" class="upload-field">
+        <label class="upload-label">Jurusan di foto <span style="text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-dim)">(opsional)</span></label>
+        <select id="upload-jurusan-foto">
+          <option value="">Semua / Tidak tahu</option>
+          <option value="TSM">TSM</option>
+          <option value="MPLB">MPLB</option>
+          <option value="ATP">ATP</option>
+          <option value="APHP">APHP</option>
+        </select>
+      </div>
+
+      <button id="upload-submit-btn">Upload Foto</button>
+    </div>
+  </div>
+
+
+  <!-- ══════════════ PHOTO MODAL ══════════════ -->
+  <div class="modal-overlay" id="photo-modal" onclick="closePhotoModalOnOverlay(event)">
+    <div class="photo-modal-inner" onclick="event.stopPropagation()">
+
+      <!-- Tombol close -->
+      <button class="modal-close-btn" onclick="closePhotoModal()" title="Tutup (Esc)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Zoom indicator -->
+      <div class="zoom-indicator" id="zoom-indicator">100%</div>
+
+      <!-- Container gambar — area zoom & pan -->
+      <div class="modal-img-container" id="modal-img-container">
+        <img id="modal-image" src="" alt="" draggable="false">
+      </div>
+
+      <!-- Nav arrows -->
+      <div class="modal-nav-row">
+        <button class="modal-nav-btn" id="modal-prev" onclick="navigatePhoto(-1)">&#8249;</button>
+        <button class="modal-nav-btn" id="modal-next" onclick="navigatePhoto(1)">&#8250;</button>
+      </div>
+
+      <!-- Reaction picker — float di atas info bar, diisi oleh toggleModalPicker() -->
+      <div class="modal-react-picker hidden" id="modal-react-picker"
+           onclick="event.stopPropagation()"></div>
+
+      <!-- Info bar -->
+      <div id="modal-info"></div>
+
+      <!-- Hint -->
+      <div class="modal-zoom-hint" id="modal-zoom-hint">
+        Swipe untuk pindah · Scroll untuk zoom · Double-tap untuk zoom
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="footer-nav">
+    <div class="footer-nav-inner">
+      <a href="angkatan.html" class="footer-prev">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Angkatan
+      </a>
+      <a href="pesan.html" class="footer-next">
+        Pesan
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script src="config.js"></script>
+  <script src="supabase.js"></script>
+  <script src="user-memory.js"></script>
+  <script src="galeri.js"></script>
+
+  <!-- Profile diisi saat user klik upload, bukan saat halaman load -->
+  <!-- Navbar scroll hint dihandle utils.js -->
+</body>
+</html>

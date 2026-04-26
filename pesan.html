@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesan — Pernah di Sini</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Pernah di Sini</a>
+      <div class="navbar-links-wrap" id="nav-wrap">
+        <div class="navbar-links" id="navbar-links">
+          <a href="angkatan.html" class="nav-link">Angkatan</a>
+          <a href="galeri.html"   class="nav-link">Galeri</a>
+          <a href="pesan.html"    class="nav-link active">Pesan</a>
+          <a href="pustaka.html"  class="nav-link">Pustaka</a>
+        </div>
+        <i class="fas fa-chevron-right navbar-scroll-hint" id="nav-hint"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Buku Kenangan · 2026</p>
+    <h1 class="hero-title">Buku <em>Pesan.</em></h1>
+    <p class="hero-sub">Satu kata yang kamu tinggalkan,<br>bisa jadi yang paling dikenang.</p>
+  </div>
+
+  <!-- PROSE -->
+  <div class="prose-block-pesan">
+    <div class="prose-inner">
+      <div class="prose">
+        <p class="line">Kita mungkin tak pernah benar-benar dekat seperti yang terlihat.</p>
+        <p>Lebih sering, kita hanya terbiasa berada di tempat yang sama.</p>
+
+        <p class="line">Saat dipisah sebentar, semuanya terasa asing.</p>
+        <p>Obrolan berhenti, dan kita kembali menjadi masing-masing.</p>
+
+        <p class="line">Tahun terakhir datang dengan cara yang berbeda.</p>
+        <p>Tidak semua dari kita sampai di titik yang sama.</p>
+
+        <p class="line">Ada yang pergi lebih dulu,</p>
+        <p class="line">ada yang memilih jalan lain,</p>
+        <p>dan sebagian hilang tanpa benar-benar dicari.</p>
+
+        <p class="line">Kita tidak menutup semuanya dengan lengkap.</p>
+        <p>Dan mungkin, memang tidak pernah benar-benar lengkap sejak awal.</p>
+
+        <p class="line">Tapi tetap saja —</p>
+        <p class="line">kita pernah ada di sini,</p>
+        <p>dalam waktu yang sama.</p>
+
+        <p>Dan itu... tidak bisa diulang lagi.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="section-sep">
+    <span>Tulis &amp; Baca</span>
+  </div>
+
+  <!-- MAIN: form + messages -->
+  <div class="pesan-main" id="main-pesan-wrapper">
+
+    <!-- KIRI: form -->
+    <div class="pesan-left">
+      <div class="pesan-form" id="pesan-form">
+        <div class="form-title">Tulis pesanmu</div>
+
+        <!-- Quota -->
+        <div class="quota-info" id="quota-info"></div>
+
+        <!-- Identitas pengirim -->
+        <div id="sender-info" class="sender-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span></span>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-field" style="margin-bottom:0">
+          <label>Pesan kenangan</label>
+          <textarea id="msg-text" class="msg-field"
+                    placeholder="Apa yang ingin kamu kenang?" maxlength="300"></textarea>
+        </div>
+        <div class="char-row">
+          <span class="char-count"><span id="char-count">0</span>/300</span>
+        </div>
+
+        <button class="btn-primary" id="submit-btn" onclick="submitMessage()" >
+          Kirim Pesan
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div><!-- /pesan-left -->
+
+    <!-- KANAN: messages -->
+    <div class="pesan-right">
+
+      <!-- Pesan admin (pinned) -->
+      <div id="admin-msg-container"></div>
+
+      <!-- Filter jurusan -->
+      <div class="filter-jurusan">
+        <button class="jurusan-filter-btn active" data-jurusan="semua">Semua <span class="count-badge">0</span></button>
+        <button class="jurusan-filter-btn" data-jurusan="TSM">TSM <span class="count-badge">0</span></button>
+        <button class="jurusan-filter-btn" data-jurusan="MP">MPLB <span class="count-badge">0</span></button>
+        <button class="jurusan-filter-btn" data-jurusan="ATP">ATP <span class="count-badge">0</span></button>
+        <button class="jurusan-filter-btn" data-jurusan="APHP">APHP <span class="count-badge">0</span></button>
+        <button class="jurusan-filter-btn" data-jurusan="Guru">Guru <span class="count-badge">0</span></button>
+      </div>
+
+      <!-- Daftar pesan -->
+      <div class="messages-list" id="messages-list"></div>
+
+    </div><!-- /pesan-right -->
+
+  </div><!-- /pesan-main -->
+
+  <footer class="footer-nav">
+    <div class="footer-nav-inner">
+      <a href="galeri.html" class="footer-prev">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Galeri
+      </a>
+      <a href="pustaka.html" class="footer-next">
+        Pustaka
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script src="config.js"></script>
+  <script src="supabase.js"></script>
+  <script src="user-memory.js"></script>
+  <script src="pesan.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Langsung load pesan — tidak perlu tunggu profil
+      loadPesan('semua');
+
+      // Silent init — tampilkan sender chip kalau sudah punya profil
+      const user = await UserMemory.init();
+      if (user) {
+        await applyApprovedRename();
+        const fresh = UserMemory.get() || user;
+        injectProfileChip(fresh);
+
+        // Tampilkan sender chip
+        const chip = document.getElementById('sender-info');
+        if (chip) {
+          const jurusanDisplay = fresh.jurusan ? ' · ' + getJurusanLabel(fresh.jurusan) : '';
+          const span = chip.querySelector('span');
+          if (span) span.textContent = `${fresh.name} · ${fresh.role}${jurusanDisplay}`;
+          chip.classList.add('visible');
+        }
+
+        if (!sessionStorage.getItem('_welcomed')) {
+          sessionStorage.setItem('_welcomed', '1');
+          showWelcomeBack(fresh);
+        }
+      }
+    });
+  </script>
+  <!-- Navbar scroll hint dihandle utils.js -->
+</body>
+</html>

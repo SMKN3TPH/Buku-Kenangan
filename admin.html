@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline' cdn.tailwindcss.com cdn.jsdelivr.net cdnjs.cloudflare.com;
+                   style-src 'self' 'unsafe-inline' fonts.googleapis.com cdnjs.cloudflare.com;
+                   font-src fonts.gstatic.com cdnjs.cloudflare.com;
+                   img-src 'self' data: blob: https:;
+                   connect-src 'self' https://*.supabase.co wss://*.supabase.co;">
+    <title>Admin Dashboard · SMKN 3 Tapung Hulu</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen bg-gray-100">
+
+    <!-- Loading Overlay -->
+    <div id="loading-indicator" class="fixed inset-0 bg-black/40 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-6 flex items-center gap-3 shadow-xl">
+            <i class="fas fa-circle-notch spin text-blue-600 text-xl"></i>
+            <span class="text-gray-700 font-medium">Memuat...</span>
+        </div>
+    </div>
+
+    <!-- ========== LOGIN ========== -->
+    <div id="login-section" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+                <p class="text-gray-500 text-sm mt-1">SMKN 3 Tapung Hulu</p>
+            </div>
+
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-gray-400"></i>Email
+                    </label>
+                    <input type="email" id="login-email" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                           placeholder="admin@smkn3th.sch.id">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-gray-400"></i>Password
+                    </label>
+                    <input type="password" id="login-password" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+
+                <div id="login-error" class="hidden bg-red-50 text-red-600 text-sm p-3 rounded-lg">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span id="login-error-msg"></span>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-sign-in-alt"></i>Masuk ke Dashboard
+                </button>
+            </form>
+
+            <p class="text-xs text-gray-400 text-center mt-6">
+                <i class="fas fa-shield-alt mr-1"></i>Hanya untuk admin sekolah
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== DASHBOARD ========== -->
+    <div id="dashboard-section" class="hidden min-h-screen">
+
+        <!-- Navbar -->
+        <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white text-sm"></i>
+                        </div>
+                        <span class="font-semibold text-gray-800">SMKN 3 Tapung Hulu · Admin</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <a href="gallery.html" target="_blank"
+                           class="text-sm text-gray-500 hover:text-blue-600 transition hidden md:flex items-center gap-1">
+                            <i class="fas fa-external-link-alt"></i> Website
+                        </a>
+                        <button id="refresh-btn"
+                                class="p-2 hover:bg-gray-100 rounded-lg transition text-gray-500 hover:text-gray-700" title="Refresh">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button id="logout-btn"
+                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition flex items-center gap-2">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="hidden md:inline">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-4 py-8">
+
+            <!-- Statistik -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-5 text-center border-l-4 border-yellow-400">
+                    <p class="text-2xl font-bold text-gray-800" id="stat-pesan">—</p>
+                    <p class="text-xs text-gray-500 mt-1">Pesan Pending</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 text-center border-l-4 border-blue-400">
+                    <p class="text-2xl font-bold text-gray-800" id="stat-foto">—</p>
+                    <p class="text-xs text-gray-500 mt-1">Foto Pending</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 text-center border-l-4 border-red-400">
+                    <p class="text-2xl font-bold text-gray-800" id="stat-laporan">—</p>
+                    <p class="text-xs text-gray-500 mt-1">Laporan</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 text-center border-l-4 border-green-400">
+                    <p class="text-2xl font-bold text-gray-800" id="stat-feedback">—</p>
+                    <p class="text-xs text-gray-500 mt-1">Feedback</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 text-center border-l-4 border-purple-400">
+                    <p class="text-2xl font-bold text-gray-800" id="stat-rename">—</p>
+                    <p class="text-xs text-gray-500 mt-1">Req. Ganti Nama</p>
+                </div>
+            </div>
+
+            <!-- Tab -->
+            <div class="bg-white rounded-xl shadow-sm p-2 flex flex-wrap gap-2 mb-6 w-fit">
+                <button class="tab-btn active" onclick="switchTab('foto')" id="tab-foto">
+                    <i class="fas fa-images mr-2"></i>Foto
+                    <span class="badge hidden" id="badge-foto"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('pesan')" id="tab-pesan">
+                    <i class="fas fa-comment mr-2"></i>Pesan
+                    <span class="badge hidden" id="badge-pesan"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('laporan')" id="tab-laporan">
+                    <i class="fas fa-flag mr-2"></i>Laporan
+                    <span class="badge hidden" id="badge-laporan"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('feedback')" id="tab-feedback">
+                    <i class="fas fa-inbox mr-2"></i>Feedback
+                </button>
+                <button class="tab-btn" onclick="switchTab('rename')" id="tab-rename">
+                    <i class="fas fa-user-edit mr-2"></i>Ganti Nama
+                    <span class="badge hidden" id="badge-rename"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('settings')" id="tab-settings">
+                    <i class="fas fa-cog mr-2"></i>Pengaturan
+                </button>
+                <button class="tab-btn" onclick="switchTab('banned')" id="tab-banned">
+                    <i class="fas fa-ban mr-2"></i>Banned
+                    <span class="badge hidden" id="badge-banned"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('words')" id="tab-words">
+                    <i class="fas fa-filter mr-2"></i>Kata Kasar
+                </button>
+                <button class="tab-btn" onclick="switchTab('admingaleri')" id="tab-admingaleri">
+                    <i class="fas fa-mountain-sun mr-2"></i>Galeri Admin
+                </button>
+            </div>
+
+            <!-- Filter status -->
+            <div id="filter-row" class="flex flex-wrap gap-2 mb-6">
+                <button class="filter-btn active" data-status="pending" onclick="setFilter('pending')">Pending</button>
+                <button class="filter-btn" data-status="approved" onclick="setFilter('approved')">Approved</button>
+                <button class="filter-btn" data-status="rejected" onclick="setFilter('rejected')">Rejected</button>
+                <button class="filter-btn" data-status="all" onclick="setFilter('all')">Semua</button>
+            </div>
+
+            <!-- Content -->
+            <div id="content-area">
+                <div class="flex justify-center py-16">
+                    <i class="fas fa-circle-notch spin text-blue-500 text-3xl"></i>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal gambar besar -->
+    <div id="img-modal" class="img-modal" onclick="closeImgModal()">
+        <img id="img-modal-src" src="" alt=""
+             class="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl">
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

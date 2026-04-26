@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembuka — Pernah di Sini</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+
+  /* ─── HERO MOMENT ─────────────────────────────── */
+  .hero {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(185,155,90,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    animation: breathe 10s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%, -62%) scale(1.15); }
+  }
+
+  .hero-pre {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeIn 1s 0.3s forwards;
+  }
+
+  .hero-main {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 7.5vw, 52px);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text);
+    display: block;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.7s forwards;
+  }
+  .hero-main em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-main .strike {
+    position: relative;
+    color: var(--text-muted);
+  }
+  .hero-main .strike::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--text-dim);
+    transform: scaleX(0);
+    animation: strikeIn 0.6s 2s ease forwards;
+  }
+  @keyframes strikeIn {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .hero-rule {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    margin: 48px auto 0;
+    opacity: 0;
+    animation: fadeIn 1s 1.4s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeIn 1s 2.2s forwards, scrollBob 2.4s 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollBob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(4px); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── PROSE SECTION ───────────────────────────── */
+  .prose-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 100px 28px 80px;
+  }
+
+  .prose-intro {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .prose-intro::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .prose-block {
+    margin-bottom: 36px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .prose-block.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .prose-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 4vw, 19px);
+    font-weight: 400;
+    line-height: 1.85;
+    color: rgba(232,226,214,0.7);
+  }
+  .prose-text em {
+    color: var(--text);
+    font-style: italic;
+  }
+  .prose-text .quiet {
+    color: var(--text-dim);
+    font-size: 0.9em;
+  }
+
+  /* Highlight quote */
+  .prose-quote {
+    margin: 52px 0;
+    padding: 0 0 0 20px;
+    border-left: 1px solid var(--gold-dim);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .prose-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .prose-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 4.5vw, 24px);
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .prose-quote span {
+    display: block;
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-style: normal;
+  }
+
+  /* Ending line */
+  .prose-ending {
+    margin-top: 60px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .prose-ending.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .prose-ending .big {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 6vw, 32px);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .prose-ending .small {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ─── NUMBERS (formerly stats) ───────────────── */
+  .numbers-section {
+    padding: 0 28px 100px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .numbers-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .numbers-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .number-item {
+    background: var(--bg);
+    padding: 28px 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .number-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .number-item:nth-child(1) { transition-delay: 0s; }
+  .number-item:nth-child(2) { transition-delay: 0.12s; }
+  .number-item:nth-child(3) { transition-delay: 0.24s; }
+  .number-item:nth-child(4) { transition-delay: 0.36s; }
+
+  .n-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .n-context {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .n-context strong {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  /* ─── MEMORY PLACES ───────────────────────────── */
+  .places-section {
+    padding: 100px 28px;
+    max-width: 480px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+
+  .places-header {
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .places-header.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .places-eyebrow {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .places-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 6vw, 36px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .places-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* Memory fragments */
+  .memory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .memory-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .memory-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .memory-item:nth-child(1) { transition-delay: 0s; }
+  .memory-item:nth-child(2) { transition-delay: 0.1s; }
+  .memory-item:nth-child(3) { transition-delay: 0.2s; }
+  .memory-item:nth-child(4) { transition-delay: 0.3s; }
+  .memory-item:nth-child(5) { transition-delay: 0.4s; }
+
+  .memory-place {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .memory-place i {
+    margin-right: 6px;
+    color: var(--gold-dim);
+  }
+
+  .memory-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(15px, 3.5vw, 17px);
+    font-style: italic;
+    color: rgba(232,226,214,0.65);
+    line-height: 1.7;
+  }
+
+  .memory-year {
+    margin-top: 10px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+  }
+
+  /* Closing quote */
+  .places-closing {
+    margin-top: 64px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .places-closing.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .places-closing p {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── NAVIGATION CARDS ────────────────────────── */
+  .nav-section {
+    padding: 80px 28px 20px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .nav-section-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .nav-card {
+    background: var(--bg);
+    padding: 22px 18px;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background 0.25s;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: background 0.25s, opacity 0.6s ease, transform 0.6s ease;
+  }
+  .nav-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .nav-card:nth-child(1) { transition-delay: 0s; }
+  .nav-card:nth-child(2) { transition-delay: 0.1s; }
+  .nav-card:nth-child(3) { transition-delay: 0.2s; }
+  .nav-card:nth-child(4) { transition-delay: 0.3s; }
+  .nav-card:hover { background: var(--bg-hover); }
+
+  .nc-tag {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .nc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+  }
+  .nc-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .nc-cta {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nc-cta .arr {
+    width: 16px; height: 1px;
+    background: currentColor;
+    position: relative;
+    transition: width 0.3s;
+  }
+  .nc-cta .arr::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -3px;
+    width: 5px; height: 5px;
+    border-right: 1px solid currentColor;
+    border-top: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+  .nav-card:hover .arr { width: 24px; }
+
+  /* ─── DESKTOP ─────────────────────────────────── */
+  @media (min-width: 1024px) {
+    .hero { min-height: 100vh; }
+
+    .prose-wrap,
+    .numbers-section,
+    .places-section,
+    .nav-section {
+      max-width: var(--desktop-max);
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+
+    .prose-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; padding-top: 120px; }
+    .prose-intro { grid-column: 1 / -1; }
+    .prose-block,
+    .prose-quote,
+    .prose-ending { grid-column: 1; }
+
+    .numbers-section { padding-top: 0; }
+    .numbers-grid { grid-template-columns: repeat(4, 1fr); }
+    .n-val { font-size: 56px; }
+
+    .cards-grid { grid-template-columns: repeat(4, 1fr); }
+    .nav-card { padding: 28px 24px; }
+
+    .hero-main { font-size: 60px; max-width: 700px; }
+  }
+</style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Pernah di Sini</a>
+      <div class="navbar-links-wrap" id="nav-wrap">
+        <div class="navbar-links" id="navbar-links">
+          <a href="angkatan.html" class="nav-link">Angkatan</a>
+          <a href="galeri.html"   class="nav-link">Galeri</a>
+          <a href="pesan.html"    class="nav-link">Pesan</a>
+          <a href="pustaka.html"  class="nav-link">Pustaka</a>
+        </div>
+        <i class="fas fa-chevron-right navbar-scroll-hint" id="nav-hint"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO MOMENT ══════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <span class="hero-pre">Angkatan 2026 · SMK Negeri 3 Tapung Hulu</span>
+    <span class="hero-main">
+      kita <span class="strike">nggak pernah kompak</span>…<br>
+      tapi tetap <em>pernah ada.</em>
+    </span>
+    <div class="hero-rule"></div>
+    <span class="hero-scroll">scroll</span>
+  </section>
+
+  <!-- ══ PROSE ════════════════════════════════════ -->
+  <div class="prose-wrap">
+    <div class="prose-intro">Catatan Angkatan</div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        Kami bukan angkatan yang paling heboh.
+        Tapi juga bukan yang biasa saja.
+      </p>
+    </div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        <em>Kami datang di masa perubahan.</em>
+        Saat jurusan baru muncul, saat nama-nama lama mulai berubah arti.
+        Yang dulu dikenal, perlahan bergeser.
+        Yang baru, mulai mengambil tempatnya.
+      </p>
+    </div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        Di tengah itu semua, <em>kami ada.</em><br>
+        Nggak selalu dekat, tapi juga <em>nggak pernah benar-benar jauh.</em><br>
+        Nggak sempurna, tapi cukup untuk saling mengerti tanpa banyak kata.
+      </p>
+    </div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        Nggak semua dari kami selalu terlihat.<br>
+        Nggak semua punya cerita yang diceritakan keras-keras.<br>
+        <span class="quiet">Tapi itu bukan berarti kami nggak ada.</span>
+      </p>
+    </div>
+
+    <div class="prose-quote">
+      <p>"Oh… ternyata memang seperti ini ya."</p>
+      <span>— yang baru terasa sekarang</span>
+    </div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        Banyak hal terasa biasa saat dijalani.<br>
+        Tapi sekarang kalau dilihat lagi…<br>
+        <em>ada yang nggak bisa balik lagi.</em>
+      </p>
+    </div>
+
+    <div class="prose-block">
+      <p class="prose-text">
+        Dan mungkin nanti, saat semuanya sudah lewat —<br>
+        yang tersisa bukan siapa yang paling terlihat,<br>
+        <em>tapi siapa yang pernah ada.</em>
+      </p>
+    </div>
+
+    <div class="prose-ending">
+      <span class="big">kami pernah di sini.</span>
+      <span class="small">Ini cuma bukti bahwa itu nyata.</span>
+    </div>
+  </div>
+
+  <!-- ══ NUMBERS ═══════════════════════════════════ -->
+  <div class="numbers-section">
+    <div class="numbers-label">Angkatan dalam angka</div>
+    <div class="numbers-grid">
+      <div class="number-item">
+        <div class="n-val">68</div>
+        <div class="n-context">
+          <strong>Siswa</strong>
+          orang yang pernah ada di sini
+        </div>
+      </div>
+      <div class="number-item">
+        <div class="n-val">4</div>
+        <div class="n-context">
+          <strong>Jurusan</strong>
+          jalan masing-masing, satu atap
+        </div>
+      </div>
+      <div class="number-item">
+        <div class="n-val">4</div>
+        <div class="n-context">
+          <strong>Wali Kelas</strong>
+          yang menemani tanpa banyak syarat
+        </div>
+      </div>
+      <div class="number-item">
+        <div class="n-val">3</div>
+        <div class="n-context">
+          <strong>Tahun</strong>
+          dan itu terasa sebentar sekali
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MEMORY PLACES ══════════════════════════════ -->
+  <div class="places-section">
+    <div class="places-header">
+      <div class="places-eyebrow">— Tempat yang menyimpan cerita —</div>
+      <h2 class="places-title">Di mana kita<br><em>pernah berada.</em></h2>
+    </div>
+
+    <div class="memory-list">
+      <div class="memory-item">
+        <div class="memory-place"><i class="fas fa-road"></i>Lorong Utama</div>
+        <p class="memory-text">"Kita pernah berlari di sini karena telat. Dan tertawa setelahnya. Lorong ini jadi saksi ribuan langkah kaki yang tak lagi terdengar."</p>
+        <div class="memory-year">2023 — 2026</div>
+      </div>
+
+      <div class="memory-item">
+        <div class="memory-place"><i class="fas fa-chalkboard"></i>Ruang Kelas</div>
+        <p class="memory-text">"Suara kipas yang berputar, coretan papan tulis yang tak pernah habis, dan meja kayu yang jadi saksi bisu diskusi, canda, dan mimpi-mimpi kita."</p>
+        <div class="memory-year">1080 hari bersama</div>
+      </div>
+
+      <div class="memory-item">
+        <div class="memory-place"><i class="fas fa-building"></i>Gedung Lama</div>
+        <p class="memory-text">"Sebagian besar cerita kita lahir di sini. Dindingnya mungkin sudah kusam, tapi kenangannya tetap berwarna."</p>
+        <div class="memory-year">Tempat pertama</div>
+      </div>
+
+      <div class="memory-item">
+        <div class="memory-place"><i class="fas fa-school"></i>Gedung Baru</div>
+        <p class="memory-text">"Kita datang sebagai angkatan yang sudah setengah selesai, tapi tetap beradaptasi. Di sinilah kita menghabiskan tahun-tahun terakhir."</p>
+        <div class="memory-year">Babak akhir</div>
+      </div>
+
+      <div class="memory-item">
+        <div class="memory-place"><i class="fas fa-futbol"></i>Lapangan</div>
+        <p class="memory-text">"Upacara, olahraga, dan apel pagi — langit yang sama menyaksikan kita tumbuh."</p>
+        <div class="memory-year">Langit yang sama</div>
+      </div>
+    </div>
+
+    <div class="places-closing">
+      <p>5 tempat &thinsp;·&thinsp; 68 cerita &thinsp;·&thinsp; 1 angkatan</p>
+    </div>
+  </div>
+
+  <!-- ══ NAV CARDS ══════════════════════════════════ -->
+  <div class="nav-section">
+    <div class="nav-section-label">Jelajahi</div>
+    <div class="cards-grid">
+      <a href="angkatan.html" class="nav-card">
+        <div class="nc-tag">01 — Orang</div>
+        <div class="nc-title">Angkatan</div>
+        <div class="nc-desc">68 nama, 4 jurusan, satu angkatan yang sama.</div>
+        <div class="nc-cta">Lihat <span class="arr"></span></div>
+      </a>
+      <a href="galeri.html" class="nav-card">
+        <div class="nc-tag">02 — Foto</div>
+        <div class="nc-title">Galeri</div>
+        <div class="nc-desc">Dokumentasi resmi dan kiriman teman-teman.</div>
+        <div class="nc-cta">Lihat <span class="arr"></span></div>
+      </a>
+      <a href="pesan.html" class="nav-card">
+        <div class="nc-tag">03 — Kata</div>
+        <div class="nc-title">Pesan</div>
+        <div class="nc-desc">Tinggalkan kenangan dalam kata sebelum waktunya habis.</div>
+        <div class="nc-cta">Tulis <span class="arr"></span></div>
+      </a>
+      <a href="pustaka.html" class="nav-card">
+        <div class="nc-tag">04 — Info</div>
+        <div class="nc-title">Pustaka</div>
+        <div class="nc-desc">Profil sekolah, wali kelas, dan informasi lainnya.</div>
+        <div class="nc-cta">Buka <span class="arr"></span></div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer-nav">
+    <div class="footer-nav-inner">
+      <a href="index.html" class="footer-prev">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Sampul
+      </a>
+      <a href="angkatan.html" class="footer-next">
+        Angkatan
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="utils.js"></script>
+  <script>
+    // Scroll-reveal: IntersectionObserver
+    const revealEls = document.querySelectorAll(
+      '.prose-block, .prose-quote, .prose-ending, .number-item, .memory-item, .places-header, .places-closing, .nav-card'
+    );
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // once revealed, unobserve
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
