@@ -14,11 +14,11 @@
   --bg-raised:   #141414;
   --bg-card:     #1A1A1A;
   --bg-hover:    #202020;
-  --border:      #1f1f1f;
-  --border-gold: #4a3d20;
+  --border:      #333330;
+  --border-gold: #6a5a30;
   --text:        #E8E2D6;
-  --text-muted:  #9A9080;
-  --text-dim:    #4A4438;
+  --text-muted:  #C8BEB0;
+  --text-dim:    #8A8070;
   --gold:        #B99B5A;
   --gold-bright: #D4B878;
   --gold-dim:    #7A6535;
@@ -627,7 +627,7 @@ body.page-exit {
 }
 .cover-title .word1 { font-size: clamp(52px, 14vw, 72px); color: var(--text); display: block; }
 .cover-title .word2 { font-size: clamp(52px, 14vw, 72px); color: var(--gold); font-style: italic; display: block; margin-top: -4px; }
-.cover-title .word3 { font-size: clamp(28px, 7vw, 38px); color: #6e6558; display: block; font-weight: 400; letter-spacing: 2px; margin-top: 4px; }
+.cover-title .word3 { font-size: clamp(28px, 7vw, 38px); color: #a09888; display: block; font-weight: 400; letter-spacing: 2px; margin-top: 4px; }
 .cover-rule {
   width: 1px; height: 40px;
   background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
@@ -639,7 +639,7 @@ body.page-exit {
   letter-spacing: 0.3px; line-height: 2;
   opacity: 0; animation: up 0.9s 1.0s cubic-bezier(0.2,0,0.3,1) forwards;
 }
-.cover-school strong { display: block; color: #9a9080; font-weight: 400; font-size: 12px; }
+.cover-school strong { display: block; color: #C8BEB0; font-weight: 400; font-size: 12px; }
 
 .btn-enter {
   margin-top: 44px;
@@ -765,7 +765,7 @@ body.page-exit {
 .prose-text {
   font-family: 'Playfair Display', serif;
   font-size: clamp(16px, 4vw, 19px); font-weight: 400;
-  line-height: 1.85; color: #b0a898;
+  line-height: 1.85; color: #D0C8B8;
 }
 .prose-text em    { color: var(--text); font-style: italic; }
 .prose-text .quiet { color: var(--text-dim); font-size: 0.9em; }
@@ -809,8 +809,8 @@ body.page-exit {
 }
 .numbers-label::after { content:''; flex:1; height:1px; background:var(--border); }
 .numbers-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: var(--border); border: 1px solid var(--border);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  background: var(--border); border: 2px solid var(--border);
 }
 .number-item {
   background: var(--bg); padding: 28px 20px;
@@ -843,7 +843,7 @@ body.page-exit {
 .memory-item:nth-child(5){transition-delay:0.4s}
 .memory-place { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
 .memory-place i { margin-right:6px; color:var(--gold-dim); }
-.memory-text { font-family:'Playfair Display',serif; font-size:clamp(15px,3.5vw,17px); font-style:italic; color: #a8a090; line-height:1.7; }
+.memory-text { font-family:'Playfair Display',serif; font-size:clamp(15px,3.5vw,17px); font-style:italic; color: #C0B8A8; line-height:1.7; }
 .memory-year { margin-top:10px; font-size:9px; letter-spacing:1.5px; color:var(--text-dim); }
 .places-closing { margin-top:64px; text-align:center; opacity:0; transform:translateY(16px); transition:opacity 0.8s ease,transform 0.8s ease; }
 .places-closing.visible { opacity:1; transform:translateY(0); }
@@ -855,7 +855,7 @@ body.page-exit {
   margin-bottom:28px; display:flex; align-items:center; gap:16px;
 }
 .nav-section-label::after { content:''; flex:1; height:1px; background:var(--border); }
-.cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); }
+.cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--border); border:2px solid var(--border); }
 .nav-card {
   background:var(--bg); padding:22px 18px; text-decoration:none; color:var(--text);
   display:flex; flex-direction:column; gap:8px;
@@ -1444,6 +1444,22 @@ body.page-exit {
 }
 
 /* ── Tablet ── */
+
+/* ── Tablet ── */
+@media (min-width: 768px) {
+  .hero { padding: 56px 32px 40px; }
+  .page-wrapper { padding: 56px 32px 90px; }
+  .students-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .jurusan-grid  { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kajur-grid    { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .alpha-grid    { grid-template-columns: repeat(11, 1fr); }
+  .photo-grid    { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .messages-list { max-width: 600px; margin: 0 auto; }
+  .filter-block  { padding: 32px 32px 0; }
+  .galeri-main   { padding: 0 32px 100px; }
+  .pesan-main    { padding: 0 32px 100px; }
+}
+
 @media (min-width: 640px) {
   .photo-grid { grid-template-columns:repeat(3,1fr); gap:10px; }
   .cover { max-width:400px; }
