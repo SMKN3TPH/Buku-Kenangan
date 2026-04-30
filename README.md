@@ -32,7 +32,7 @@ Tidak dibuat untuk terlihat hebat. Dibuat supaya diingat.
 ## Stack
 
 - **Frontend** — HTML, CSS, Vanilla JavaScript. Tanpa framework.
-- **Backend** — [Supabase](https://supabase.com) (database + storage + auth)
+- **Backend** — [Supabase](https://supabase.com) (database + storage + RLS)
 - **Deploy** — GitHub Pages
 
 ---
@@ -46,16 +46,17 @@ Tidak dibuat untuk terlihat hebat. Dibuat supaya diingat.
 ├── galeri.html         # Galeri foto
 ├── pesan.html          # Buku pesan
 ├── pustaka.html        # Info sekolah
-├── admin.html          # Dashboard admin (moderasi)
+├── admin.html          # Dashboard admin (moderasi, local-only)
 │
 ├── style.css           # Design system — CSS variables, komponen shared
-├── utils.js            # Shared utilities (escHtml, formatTimeAgo, page transition, dll)
-├── config.js           # Konfigurasi Supabase
+├── utils.js            # Shared utilities (escHtml, formatTimeAgo, transisi, dll)
+├── config.js           # Konfigurasi Supabase (URL + anon key)
 ├── supabase.js         # Semua fungsi database & storage
 ├── user-memory.js      # Sistem identitas user (fingerprint, profil, session)
 ├── galeri.js           # Logic halaman galeri
 ├── pesan.js            # Logic halaman pesan
-└── admin.js            # Logic dashboard admin
+├── admin.js            # Logic dashboard admin
+└── og.jpg              # Open Graph image
 ```
 
 ---
@@ -64,10 +65,12 @@ Tidak dibuat untuk terlihat hebat. Dibuat supaya diingat.
 
 **Galeri**
 - Upload foto dengan kompresi otomatis & konversi WebP
-- Masonry grid dengan lazy loading
+- Grid 2 kolom dengan rasio tetap `4:3` — rapi di semua ukuran layar
+- Load more append-only — item lama tidak di-render ulang saat load more
 - Modal preview dengan zoom (scroll/pinch), pan, swipe navigasi antar foto
 - Sistem reaksi emoji per foto
 - Like & view count
+- Sistem kuota upload energi: maks 3 upload, regenerasi 1 per 3.5 jam
 
 **Pesan**
 - Kiriman pesan dengan sistem kuota (3 pesan / 4 jam)
@@ -85,10 +88,11 @@ Tidak dibuat untuk terlihat hebat. Dibuat supaya diingat.
 - Request ganti nama melalui moderasi admin
 
 **Admin dashboard**
+- Akses local-only (tidak dipublish)
 - Moderasi foto & pesan (approve / reject)
-- Upload foto ke galeri admin
+- Upload foto ke galeri dokumentasi resmi
 - Manajemen banned users & kata kasar
-- Pengaturan tanggal penutupan sistem
+- Pengaturan tanggal penutupan sistem upload
 
 ---
 
@@ -105,7 +109,7 @@ Buka `index.html` di browser. Untuk fitur yang butuh koneksi database (galeri, p
 
 ---
 
-## Environment
+## Konfigurasi
 
 Konfigurasi Supabase ada di `config.js`:
 
@@ -117,6 +121,8 @@ const CONFIG = {
 ```
 
 `SUPABASE_ANON_KEY` yang dipakai adalah **publishable key** — aman untuk diekspos di frontend. Akses data dikontrol oleh Row Level Security (RLS) di Supabase.
+
+> Tidak ada `env.js` — semua konfigurasi hardcoded di `config.js`.
 
 ---
 
@@ -139,7 +145,7 @@ const CONFIG = {
 | `site_config` | Konfigurasi sistem (tanggal penutupan, dll) |
 
 **Storage bucket:** `gallery_photos`
-- `user-uploads/` — foto kiriman user
+- `user-uploads/` — foto kiriman user (WebP, maks 1920px, dikompresi otomatis)
 - `admin-uploads/` — foto dokumentasi resmi
 
 ---
